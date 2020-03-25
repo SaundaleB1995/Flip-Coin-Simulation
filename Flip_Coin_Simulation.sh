@@ -9,8 +9,6 @@ else
     echo "-->Tail."
 fi
 
-
-echo "Enter a flip flop"
 number=10
 tail=0
 head=0
@@ -79,6 +77,62 @@ done | sort ))
       for key in ${!DoubletDict[@]}
       do    
            if [[ $max -eq ${DoubletDict[$key]} ]]
+           then 
+               echo "win combination $key"
+            fi
+       done
+
+
+declare -A TripletDict
+TripletDict+=(["HHH"]=0 ["HHT"]=0 ["HTH"]=0 ["THH"]=0 ["TTT"]=0 ["TTH"]=0 ["THT"]=0 ["HTT"]=0)
+echo "Triplet-Combination Percentage"
+for (( i=0;i<$number;i++))
+do
+   check=$((RANDOM%8))
+   case $check in 
+       0)
+       TripletDict["HHH"]=$((${TripletDict["HHH"]}+1))
+        ;;
+        1)
+       TripletDict["HHT"]=$((${TripletDict["HHT"]}+1))
+        ;;
+        2)
+       TripletDict["HTH"]=$((${TripletDict["HTH"]}+1))
+        ;;
+        3)
+       TripletDict["THH"]=$((${TripletDict["THH"]}+1))
+        ;;
+        4)
+       TripletDict["TTT"]=$((${TripletDict["TTT"]}+1))
+        ;;
+        5)
+       TripletDict["TTH"]=$((${TripletDict["TTH"]}+1))
+        ;;
+        6)
+       TripletDict["THT"]=$((${TripletDict["THT"]}+1))
+        ;;
+        7)
+       TripletDict["HTT"]=$((${TripletDict["HTT"]}+1))
+        ;;
+
+    esac
+done
+
+for i in ${!TripletDict[@]}     
+do
+          TripletDict[$i]=$(((${TripletDict[$i]}*100)/$number))
+done
+     
+     arrTripletDict=($(for value in ${TripletDict[@]}
+     do
+        echo $value
+      done | sort ))
+
+      max=${arrTripletDict[7]}
+      echo ${arrTripletDict[@]}
+      for key in ${!TripletDict[@]}
+      do    
+           if [[ $max -eq ${TripletDict[$key]} ]]
            then 
                echo "win combination $key"
             fi
